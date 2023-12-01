@@ -1,6 +1,5 @@
 package rpl.fitbook.controller.laporan;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +10,8 @@ import rpl.fitbook.util.Response;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/v1")
 public class LaporanController {
     private final LaporanService laporanService;
 
@@ -36,13 +37,13 @@ public class LaporanController {
         return new ResponseEntity<>(new Response("Success", HttpStatus.OK, "OK", laporan), HttpStatus.OK);
     }
 
-    @DeleteMapping("/laporan/{laporanId}")
+    @DeleteMapping("/hapusLaporan/{laporanId}")
     public ResponseEntity<Object> deleteLaporanById(@PathVariable Integer laporanId) {
         this.laporanService.deleteById(laporanId);
         return new ResponseEntity<>(new Response("Success", HttpStatus.OK, "OK", null), HttpStatus.OK);
     }
 
-    @PutMapping("/laporan/{laporanId}")
+    @PutMapping("/balasLaporan/{laporanId}")
     public ResponseEntity<Object> updateLaporanById(@PathVariable Integer laporanId, @RequestBody LaporanRequest request) {
         Laporan laporan = this.laporanService.update(laporanId, request);
         return new ResponseEntity<>(new Response("Success", HttpStatus.OK, "OK", laporan), HttpStatus.OK);

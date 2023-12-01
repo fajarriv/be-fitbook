@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import rpl.fitbook.model.laporan.Laporan;
-import rpl.fitbook.repository.LaporanRepository;
 
 import java.util.List;
 import java.util.Optional;

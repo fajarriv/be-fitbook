@@ -49,11 +49,12 @@ public class GlobalExceptionHandler {
         return ResponseUtil.exception(e.getMessage(), internal);
     }
 
-    @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<Object> exception(Exception e) {
-        HttpStatus internal = HttpStatus.INTERNAL_SERVER_ERROR;
-        return ResponseUtil.exception(e.getMessage(), internal);
-    }
+    // Disabled because it will override the response from spring security
+    // @ExceptionHandler(value = {Exception.class})
+    // public ResponseEntity<Object> exception(Exception e) {
+    //     HttpStatus internal = HttpStatus.INTERNAL_SERVER_ERROR;
+    //     return ResponseUtil.exception(e.getMessage(), internal);
+    // }
 
     @ExceptionHandler(value = {AuthException.class})
     public ResponseEntity<Object> AuthHandler(AuthException e) {

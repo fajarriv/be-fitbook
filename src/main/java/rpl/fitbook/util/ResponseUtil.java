@@ -1,4 +1,5 @@
 package rpl.fitbook.util;
+
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,15 @@ public class ResponseUtil {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    public static ResponseEntity<Object> createdResponse(Object data, String message) {
+        BaseResponse result = new BaseResponse();
+        result.setCode(HttpStatus.CREATED.value());
+        result.setStatus(HttpStatus.OK.name());
+        result.setData(data);
+        result.setMessage(message);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
     public static ResponseEntity<Object> okDownloadResponse(byte[] data, String filename, String message) {
         BaseResponse result = new BaseResponse();
         result.setCode(HttpStatus.OK.value());
@@ -31,7 +41,7 @@ public class ResponseUtil {
                 .body(result);
     }
 
-    public static ResponseEntity<Object> failResponse( String message) {
+    public static ResponseEntity<Object> failResponse(String message) {
         BaseResponse result = new BaseResponse();
         result.setCode(HttpStatus.EXPECTATION_FAILED.value());
         result.setStatus(HttpStatus.EXPECTATION_FAILED.name());

@@ -2,6 +2,8 @@ package rpl.fitbook.service.auth;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     AdminRepository adminRepo;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
+
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
@@ -70,8 +75,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String login(LoginPengguna request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
+        authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        System.out.println("aaa");
+        PenggunaModel pengguna = penggunaRepo.findByEmail(request.getEmail()).get();
+        return createToken(pengguna);
     }
 
     private PenggunaModel registerTrainer(RegisterPengguna reqTrainer) {

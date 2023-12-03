@@ -43,7 +43,7 @@ public class JwtService {
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(pengguna.getEmail())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setIssuedAt(null)
                 .setExpiration(null)
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();

@@ -11,7 +11,7 @@ import rpl.fitbook.util.Response;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class LaporanController {
     private final LaporanService laporanService;
 
@@ -45,7 +45,7 @@ public class LaporanController {
 
     @PutMapping("/balasLaporan/{laporanId}")
     public ResponseEntity<Object> updateLaporanById(@PathVariable Integer laporanId, @RequestBody LaporanRequest request) {
-        Laporan laporan = this.laporanService.update(laporanId, request);
+        Laporan laporan = laporanService.update(laporanId, request);
         return new ResponseEntity<>(new Response("Success", HttpStatus.OK, "OK", laporan), HttpStatus.OK);
     }
 }

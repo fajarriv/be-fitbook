@@ -18,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "trainer")
 public class TrainerModel extends PenggunaModel {
     private String bio;
     private Float rating;

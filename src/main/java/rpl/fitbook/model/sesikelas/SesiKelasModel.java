@@ -56,4 +56,5 @@ public class SesiKelasModel {
 
     @OneToMany(mappedBy = "sesiKelas", fetch = FetchType.LAZY)
     private List<PesananModel> listPesanan;
+
 }

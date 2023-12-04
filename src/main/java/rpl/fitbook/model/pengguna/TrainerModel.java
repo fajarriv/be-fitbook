@@ -25,3 +25,4 @@ public class TrainerModel extends PenggunaModel {
     @OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY)
     private List<SesiKelasModel> listSesiKelas;
 }
+

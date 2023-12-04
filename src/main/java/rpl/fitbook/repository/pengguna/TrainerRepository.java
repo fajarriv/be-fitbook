@@ -10,4 +10,7 @@ import rpl.fitbook.model.pengguna.TrainerModel;
 public interface TrainerRepository extends JpaRepository<TrainerModel, String> {
 
     Optional<PenggunaModel> findByEmail(String email);
+
+    TrainerModel findBySesiKelasId(String sesiKelasId);
+
 }

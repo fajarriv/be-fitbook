@@ -7,8 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import io.jsonwebtoken.io.IOException;
+import java.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,8 +25,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private static final String JWT_HEADER = "Authorization";
     private static final String JWT_TOKEN_PREFIX = "Bearer";
 
-    @Autowired
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -41,18 +39,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader(JWT_HEADER);
         final String jwtToken;
         final String userEmail;
-        try {
 
-            if (authHeader == null || !authHeader.startsWith(JWT_TOKEN_PREFIX)) {
-                filterChain.doFilter(request, response);
-                return;
-            }
+        if (authHeader == null || !authHeader.startsWith(JWT_TOKEN_PREFIX)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        try {
 
             jwtToken = authHeader.substring(7);
             userEmail = jwtService.extractEmail(jwtToken);
-
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
-
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,

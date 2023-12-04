@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "roles", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "pengguna")
 public class PenggunaModel {
 

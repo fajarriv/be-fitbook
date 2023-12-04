@@ -25,6 +25,11 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
 
     public UserDetailsImpl(String id, String email, String name, String displayName, String password) {
+        this.id = id;
+        this.email = email;
+        this.role = name;
+        this.displayName = displayName;
+        this.password = password;
     }
 
     public static UserDetailsImpl build(PenggunaModel pengguna) {
@@ -33,8 +38,7 @@ public class UserDetailsImpl implements UserDetails {
                 pengguna.getEmail(),
                 pengguna.getRole().name(),
                 pengguna.getDisplayName(),
-                pengguna.getPassword()
-        );
+                pengguna.getPassword());
     }
 
     @Override

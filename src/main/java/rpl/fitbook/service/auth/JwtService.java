@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import rpl.fitbook.model.pengguna.PenggunaModel;
 import rpl.fitbook.service.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +22,6 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
-    // private final UserDetailsImpl userService;
 
     @Value("${secret.key}")
     private String SECRET_KEY;
@@ -30,17 +30,21 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(UserDetailsImpl userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(PenggunaModel pengguna) {
+        return generateToken(new HashMap<>(), pengguna);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetailsImpl userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, PenggunaModel pengguna) {
+        extraClaims.put("id", pengguna.getId());
+        extraClaims.put("email", pengguna.getEmail());
+        extraClaims.put("role", pengguna.getRole());
+        extraClaims.put("displayName", pengguna.getDisplayName());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 35))
+                .setSubject(pengguna.getEmail())
+                .setIssuedAt(null)
+                .setExpiration(null)
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

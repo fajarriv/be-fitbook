@@ -48,8 +48,6 @@ public class SesiKelasModel {
     @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer currentParticipant;
 
-    private String noTelp;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SesiKelasStatus status;

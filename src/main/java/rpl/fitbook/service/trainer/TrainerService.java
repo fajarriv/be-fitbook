@@ -6,4 +6,6 @@ public interface TrainerService {
     void rateTrainer(Long trainerId, Float rating);
 
     TrainerModel getTrainerBySesiKelasId(String sesiKelasId);
+
+    TrainerModel getTrainerById(String id);
 }

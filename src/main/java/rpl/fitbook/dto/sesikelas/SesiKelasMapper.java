@@ -19,7 +19,7 @@ public class SesiKelasMapper {
         return dto;
     }
 
-    public static List<SesiKelasMini> toHomaPageDto (List<SesiKelasModel> allSesiKelas){
+    public static List<SesiKelasMini> toHomePageDto (List<SesiKelasModel> allSesiKelas){
         List<SesiKelasMini> result = new ArrayList<>();
 
         for (SesiKelasModel sesiKelas : allSesiKelas) {

@@ -12,5 +12,8 @@ public interface SesiKelasService {
     SesiKelasModel createSesiKelas(SesiKelasCreate form);
 
     List<SesiKelasModel> getAllSesiKelas();
+
     List<SesiKelasModel> getDashboardTrainer(String status);
+
+    void incrementParticipant(String idKelas);
 }

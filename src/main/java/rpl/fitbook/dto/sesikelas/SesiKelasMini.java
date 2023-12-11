@@ -8,19 +8,15 @@ import rpl.fitbook.model.sesikelas.SesiKelasStatus;
 
 import java.time.LocalDateTime;
 
-
 @Getter
 @Setter
-public class SesiKelasDto {
+public class SesiKelasMini {
     private String id;
     private String judul;
     private String deskripsi;
-    private TrainerDto trainer;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime jadwalWaktu;
-    private String lokasi;
     private Integer maxParticipant;
     private Integer currentParticipant;
-    private SesiKelasStatus status;
 }
 

@@ -32,4 +32,9 @@ public class SesiKelasController {
         SesiKelasModel createdKelas = sesiKelasService.getSesiKelasById(idKelas);
         return ResponseUtil.okResponse(SesiKelasMapper.toDto(createdKelas), "success");
     }
+
+    @GetMapping("/sesi-kelas")
+    public  ResponseEntity<Object> getAllKelas() {
+        return ResponseUtil.okResponse(SesiKelasMapper.toHomaPageDto(sesiKelasService.getAllSesiKelas()), "success");
+    }
 }

@@ -30,4 +30,15 @@ public class TrainerController {
         return ResponseEntity.ok(trainer);
     }
 
+    @PutMapping("/{email}/updateBio")
+    public ResponseEntity<?> updateTrainerBio(@PathVariable String email, @RequestBody String newBio) {
+        TrainerModel updatedTrainer = trainerService.updateTrainerBio(email, newBio);
+
+        if (updatedTrainer == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok("Trainer's bio updated successfully.");
+    }
+
 }

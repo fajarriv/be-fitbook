@@ -1,9 +1,11 @@
 package rpl.fitbook.service.trainer;
 
+import com.google.common.base.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rpl.fitbook.model.pengguna.TrainerModel;
+import rpl.fitbook.model.pengguna.PenggunaModel;
 import rpl.fitbook.repository.pengguna.TrainerRepository;
 
 @Service
@@ -21,6 +23,18 @@ public class TrainerServiceImpl implements TrainerService{
     @Transactional(readOnly = true)
     public TrainerModel getTrainerBySesiKelasId(String sesiKelasId) {
         return trainerRepository.findBySesiKelasId(sesiKelasId);
+    }
+
+    @Override
+    @Transactional
+    public TrainerModel updateTrainerBio(String email, String newBio) {
+        Optional<PenggunaModel> trainerOptional = trainerRepository.findByEmail(email);
+        if (trainerOptional.isPresent()) {
+            TrainerModel trainer = (TrainerModel) trainerOptional.get();
+            trainer.setBio(newBio);
+            return trainerRepository.save(trainer);
+        }
+        return null;
     }
 
 }

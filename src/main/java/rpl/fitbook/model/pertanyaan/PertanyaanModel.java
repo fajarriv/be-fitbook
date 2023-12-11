@@ -15,7 +15,7 @@ import rpl.fitbook.model.sesikelas.SesiKelasModel;
 public class PertanyaanModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(nullable = false)

@@ -45,4 +45,16 @@ public class TrainerController {
         List<SesiKelasModel> kelasTerbuat = sesiKelasService.getDashboardTrainer(status);
         return ResponseUtil.okResponse(SesiKelasMapper.toHomaPageDto(kelasTerbuat), "success");
     }
+
+
+    @PutMapping("/{email}/updateBio")
+    public ResponseEntity<?> updateTrainerBio(@PathVariable String email, @RequestBody String newBio) {
+        TrainerModel updatedTrainer = trainerService.updateTrainerBio(email, newBio);
+
+        if (updatedTrainer == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok("Trainer's bio updated successfully.");
+    }
 }

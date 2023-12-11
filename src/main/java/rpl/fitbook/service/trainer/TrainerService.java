@@ -8,4 +8,5 @@ public interface TrainerService {
     TrainerModel getTrainerBySesiKelasId(String sesiKelasId);
 
     TrainerModel getTrainerById(String id);
+    TrainerModel updateTrainerBio(String email, String newBio);
 }

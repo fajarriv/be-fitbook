@@ -16,4 +16,6 @@ public interface SesiKelasService {
     List<SesiKelasModel> getDashboardTrainer(String status);
 
     void incrementParticipant(String idKelas);
+
+    void decrementParticipant(String idKelas);
 }

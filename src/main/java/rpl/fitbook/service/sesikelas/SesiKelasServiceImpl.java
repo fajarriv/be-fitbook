@@ -84,4 +84,14 @@ public class SesiKelasServiceImpl implements SesiKelasService {
         sesiKelasRepo.save(sesiKelas);
     }
 
+    @Override
+    public void decrementParticipant(String idKelas) {
+        SesiKelasModel sesiKelas = getSesiKelasById(idKelas);
+        if(sesiKelas.getCurrentParticipant() == 0) {
+            throw new BadRequestException("Sesi kelas sudah kosong");
+        }
+        sesiKelas.setCurrentParticipant(sesiKelas.getCurrentParticipant() - 1);
+        sesiKelasRepo.save(sesiKelas);
+    }
+
 }

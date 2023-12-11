@@ -1,21 +1,14 @@
 package rpl.fitbook.controller;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import rpl.fitbook.dto.pengguna.UserMapper;
 import rpl.fitbook.dto.pesanan.PesananDto;
 import rpl.fitbook.dto.pesanan.PesananMapper;
-import rpl.fitbook.dto.sesikelas.SesiKelasMapper;
-import rpl.fitbook.dto.sesikelas.SesiKelasMini;
 import rpl.fitbook.model.peasanan.PesananModel;
 import rpl.fitbook.model.pengguna.UserModel;
-import rpl.fitbook.model.sesikelas.SesiKelasModel;
 import rpl.fitbook.service.pengguna.PenggunaService;
 import rpl.fitbook.service.pesanan.PesananService;
 import rpl.fitbook.service.user.UserService;
@@ -54,5 +47,13 @@ public class UserController {
         }
         String message = String.format("Berhasil mendapatkan daftar pesanan dengan status %s", status);
         return ResponseUtil.okResponse(result, message);
+    }
+
+    @DeleteMapping("/pesanan/{pesananId}")
+    @PreAuthorize("hasAuthority('User')")
+    public ResponseEntity<Object> deletePesanan(@PathVariable(value = "pesananId") String pesananId) {
+        pesananService.cancelPesanan(pesananId);
+        String message = String.format("Berhasil menghapus pesanan dengan id %s", pesananId);
+        return ResponseUtil.okResponse(null, message);
     }
 }

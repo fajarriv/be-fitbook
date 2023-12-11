@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import rpl.fitbook.exception.BadRequestException;
+import rpl.fitbook.exception.NotFoundException;
 import rpl.fitbook.model.peasanan.PesananModel;
 import rpl.fitbook.model.peasanan.PesananStatus;
 import rpl.fitbook.model.pengguna.UserModel;
@@ -33,6 +34,12 @@ public class PesananServiceImpl implements PesananService {
     SesiKelasService sesiKelasService;
 
     @Override
+    public PesananModel getPesananById(String idPesanan) {
+        return pesananRepo.findById(idPesanan).orElseThrow(
+                () -> new NotFoundException("Trainer dengan idPesanan " + idPesanan + " tidak ditemukan"));
+    }
+
+    @Override
     public PesananModel createPesanan(String idKelas) {
         UserModel currentUser = userService.getUserById(penggunaService.getCurrentPenggunaId());
 
@@ -54,6 +61,17 @@ public class PesananServiceImpl implements PesananService {
     public List<PesananModel> getAllPesananUserByStatus(String status) {
         UserModel currentUser = userService.getUserById(penggunaService.getCurrentPenggunaId());
         return pesananRepo.findAllByUserAndStatus(currentUser, PesananStatus.valueOf(status));
+    }
+
+    @Override
+    public void cancelPesanan(String idPesanan) {
+        PesananModel pesanan = getPesananById(idPesanan);
+        if (pesanan.getStatus() != PesananStatus.Ongoing) {
+            throw new BadRequestException("Pesanan tidak dapat dibatalkan");
+        }
+        pesanan.setStatus(PesananStatus.Cancelled);
+        sesiKelasService.decrementParticipant(pesanan.getSesiKelas().getId());
+        pesananRepo.save(pesanan);
     }
 
     private Boolean isAlreadyOrdered(String idKelas, UserModel currentUser) {

@@ -1,8 +1,12 @@
 package rpl.fitbook.controller.trainer;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import rpl.fitbook.dto.pengguna.TrainerMapper;
+import rpl.fitbook.dto.pengguna.UserMapper;
 import rpl.fitbook.dto.sesikelas.SesiKelasMapper;
+import rpl.fitbook.model.pengguna.UserModel;
 import rpl.fitbook.model.sesikelas.SesiKelasModel;
+import rpl.fitbook.service.pengguna.PenggunaService;
 import rpl.fitbook.service.sesikelas.SesiKelasService;
 import rpl.fitbook.service.trainer.TrainerService;
 import rpl.fitbook.model.pengguna.TrainerModel;
@@ -20,7 +24,10 @@ public class TrainerController {
     @Autowired
     SesiKelasService sesiKelasService;
     @Autowired
-    private TrainerService trainerService;
+    TrainerService trainerService;
+
+    @Autowired
+    PenggunaService penggunaService;
 
     @PostMapping("/{trainerId}/rate")
     public ResponseEntity<?> rateTrainer(@PathVariable Long trainerId, @RequestBody Float rating) {
@@ -43,7 +50,8 @@ public class TrainerController {
     @PreAuthorize("hasAuthority('Trainer')")
     public ResponseEntity<Object> getDashboard(@PathVariable(value = "status") String status) {
         List<SesiKelasModel> kelasTerbuat = sesiKelasService.getDashboardTrainer(status);
-        return ResponseUtil.okResponse(SesiKelasMapper.toHomaPageDto(kelasTerbuat), "success");
+        String message = String.format("Berhasil mendapatkan Sesi Kelas dengan status %s", status);
+        return ResponseUtil.okResponse(SesiKelasMapper.toHomePageDto(kelasTerbuat), message);
     }
 
 
@@ -56,5 +64,12 @@ public class TrainerController {
         }
 
         return ResponseEntity.ok("Trainer's bio updated successfully.");
+    }
+
+    @GetMapping("")
+    @PreAuthorize("hasAuthority('Trainer')")
+    public ResponseEntity<Object> getProfile() {
+        TrainerModel currentTrainer = trainerService.getTrainerById(penggunaService.getCurrentPenggunaId());
+        return ResponseUtil.okResponse(TrainerMapper.toDto(currentTrainer), "success");
     }
 }

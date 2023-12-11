@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 import rpl.fitbook.dto.sesikelas.SesiKelasCreate;
+import rpl.fitbook.exception.BadRequestException;
 import rpl.fitbook.exception.NotFoundException;
 import rpl.fitbook.model.pengguna.TrainerModel;
 import rpl.fitbook.model.sesikelas.SesiKelasModel;
@@ -69,6 +70,28 @@ public class SesiKelasServiceImpl implements SesiKelasService {
         // Get trainer model form pengguna that sent the request
         TrainerModel trainer = trainerService.getTrainerById(penggunaService.getCurrentPenggunaId());
         return sesiKelasRepo.findAllByTrainerAndStatus(trainer, SesiKelasStatus.valueOf(status));
+    }
+
+    @Override
+    public void incrementParticipant(String idKelas) {
+        SesiKelasModel sesiKelas = getSesiKelasById(idKelas);
+        Integer maxParticipant = sesiKelas.getMaxParticipant();
+        if(maxParticipant == sesiKelas.getCurrentParticipant()) {
+            throw new BadRequestException("Sesi kelas sudah penuh");
+        }
+
+        sesiKelas.setCurrentParticipant(sesiKelas.getCurrentParticipant() + 1);
+        sesiKelasRepo.save(sesiKelas);
+    }
+
+    @Override
+    public void decrementParticipant(String idKelas) {
+        SesiKelasModel sesiKelas = getSesiKelasById(idKelas);
+        if(sesiKelas.getCurrentParticipant() == 0) {
+            throw new BadRequestException("Sesi kelas sudah kosong");
+        }
+        sesiKelas.setCurrentParticipant(sesiKelas.getCurrentParticipant() - 1);
+        sesiKelasRepo.save(sesiKelas);
     }
 
 }

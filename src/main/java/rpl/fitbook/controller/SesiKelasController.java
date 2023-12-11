@@ -35,6 +35,6 @@ public class SesiKelasController {
 
     @GetMapping("/sesi-kelas")
     public  ResponseEntity<Object> getAllKelas() {
-        return ResponseUtil.okResponse(SesiKelasMapper.toHomaPageDto(sesiKelasService.getAllSesiKelas()), "success");
+        return ResponseUtil.okResponse(SesiKelasMapper.toHomePageDto(sesiKelasService.getAllSesiKelas()), "success");
     }
 }

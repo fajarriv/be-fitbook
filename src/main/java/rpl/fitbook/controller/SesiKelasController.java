@@ -3,8 +3,7 @@ package rpl.fitbook.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import rpl.fitbook.dto.sesikelas.SesiKelasCreate;
@@ -12,10 +11,6 @@ import rpl.fitbook.dto.sesikelas.SesiKelasMapper;
 import rpl.fitbook.model.sesikelas.SesiKelasModel;
 import rpl.fitbook.service.sesikelas.SesiKelasService;
 import rpl.fitbook.util.ResponseUtil;
-
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api")
@@ -31,7 +26,7 @@ public class SesiKelasController {
         return ResponseUtil.okResponse(SesiKelasMapper.toDto(createdKelas), message);
     }
 
-    @PostMapping("/sesi-kelas/{id}")
+    @GetMapping("/sesi-kelas/{id}")
     @PreAuthorize("hasAnyAuthority('Admin', 'Trainer', 'User')")
     public ResponseEntity<Object> getDetailKelas(@PathVariable(value = "id") String idKelas) {
         SesiKelasModel createdKelas = sesiKelasService.getSesiKelasById(idKelas);

@@ -11,6 +11,6 @@ public interface TrainerRepository extends JpaRepository<TrainerModel, String> {
 
     Optional<PenggunaModel> findByEmail(String email);
 
-    TrainerModel findBySesiKelasId(String sesiKelasId);
+//    TrainerModel findBySesiKelasId(String sesiKelasId);
 
 }

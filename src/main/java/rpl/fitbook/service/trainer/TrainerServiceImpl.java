@@ -22,7 +22,8 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     @Transactional(readOnly = true)
     public TrainerModel getTrainerBySesiKelasId(String sesiKelasId) {
-        return trainerRepository.findBySesiKelasId(sesiKelasId);
+//        return trainerRepository.findBySesiKelasId(sesiKelasId);
+        return null;
     }
 
     @Override

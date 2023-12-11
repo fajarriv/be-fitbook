@@ -1,8 +1,10 @@
 package rpl.fitbook.service.sesikelas;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.stereotype.Service;
 import rpl.fitbook.dto.sesikelas.SesiKelasCreate;
 import rpl.fitbook.exception.NotFoundException;
 import rpl.fitbook.model.pengguna.TrainerModel;
@@ -14,8 +16,10 @@ import rpl.fitbook.service.trainer.TrainerService;
 
 import java.time.format.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
-
+@Service
+@Transactional
 public class SesiKelasServiceImpl implements SesiKelasService {
 
     @Autowired
@@ -49,9 +53,21 @@ public class SesiKelasServiceImpl implements SesiKelasService {
         TrainerModel trainer = trainerService.getTrainerById(penggunaService.getCurrentPenggunaId());
         
         newKelas.setTrainer(trainer);
-        newKelas.setStatus(SesiKelasStatus.Ongoing);  
+        newKelas.setStatus(SesiKelasStatus.Ongoing);
+        newKelas.setCurrentParticipant(0);
         
         return sesiKelasRepo.save(newKelas);
+    }
+
+    @Override
+    public List<SesiKelasModel> getAllSesiKelas() {
+        return sesiKelasRepo.findAllByStatus(SesiKelasStatus.Ongoing);
+    }
+
+    public List<SesiKelasModel> getDashboardTrainer(String status) {
+        // Get trainer model form pengguna that sent the request
+        TrainerModel trainer = trainerService.getTrainerById(penggunaService.getCurrentPenggunaId());
+        return sesiKelasRepo.findAllByTrainerAndStatus(trainer, SesiKelasStatus.valueOf(status));
     }
 
 }

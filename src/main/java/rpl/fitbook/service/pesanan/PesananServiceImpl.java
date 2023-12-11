@@ -50,6 +50,12 @@ public class PesananServiceImpl implements PesananService {
         return pesananRepo.save(newPesanan);
     }
 
+    @Override
+    public List<PesananModel> getAllPesananUserByStatus(String status) {
+        UserModel currentUser = userService.getUserById(penggunaService.getCurrentPenggunaId());
+        return pesananRepo.findAllByUserAndStatus(currentUser, PesananStatus.valueOf(status));
+    }
+
     private Boolean isAlreadyOrdered(String idKelas, UserModel currentUser) {
         // Get all idKelas from daftarpesanan currentUser
         List<String> daftarIdKelas = new ArrayList<>();

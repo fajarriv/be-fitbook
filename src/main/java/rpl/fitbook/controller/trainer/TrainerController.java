@@ -50,7 +50,8 @@ public class TrainerController {
     @PreAuthorize("hasAuthority('Trainer')")
     public ResponseEntity<Object> getDashboard(@PathVariable(value = "status") String status) {
         List<SesiKelasModel> kelasTerbuat = sesiKelasService.getDashboardTrainer(status);
-        return ResponseUtil.okResponse(SesiKelasMapper.toHomePageDto(kelasTerbuat), "success");
+        String message = String.format("Berhasil mendapatkan Sesi Kelas dengan status %s", status);
+        return ResponseUtil.okResponse(SesiKelasMapper.toHomePageDto(kelasTerbuat), message);
     }
 
 

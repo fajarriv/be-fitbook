@@ -64,6 +64,7 @@ public class SesiKelasServiceImpl implements SesiKelasService {
         return sesiKelasRepo.findAllByStatus(SesiKelasStatus.Ongoing);
     }
 
+    @Override
     public List<SesiKelasModel> getDashboardTrainer(String status) {
         // Get trainer model form pengguna that sent the request
         TrainerModel trainer = trainerService.getTrainerById(penggunaService.getCurrentPenggunaId());

@@ -1,33 +1,34 @@
 package rpl.fitbook.controller.pertanyaan;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import rpl.fitbook.dto.pertanyaan.PertanyaanCreate;
 import rpl.fitbook.model.pertanyaan.PertanyaanModel;
 import rpl.fitbook.service.pertanyaan.PertanyaanService;
+import rpl.fitbook.util.ResponseUtil;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000", "https://fitbookit.net"})
-@RequestMapping("/pertanyaan")
+@RequestMapping("/api")
 public class PertanyaanController {
 
-    private final PertanyaanService pertanyaanService;
-
     @Autowired
-    public PertanyaanController(PertanyaanService pertanyaanService) {
-        this.pertanyaanService = pertanyaanService;
-    }
+    PertanyaanService pertanyaanService;
 
-    @GetMapping("/pertanyaan")
-    @PostMapping
-    public ResponseEntity<PertanyaanModel> createPertanyaan(@RequestBody PertanyaanModel pertanyaan) {
+    @PostMapping("/pertanyaan")    
+    @PreAuthorize("hasAuthority('User')")
+    public ResponseEntity<Object> createPertanyaan(@RequestBody PertanyaanCreate pertanyaan) {
         PertanyaanModel createdPertanyaan = pertanyaanService.createPertanyaan(pertanyaan);
-        return ResponseEntity.ok(createdPertanyaan);
+        return ResponseUtil.okResponse(createdPertanyaan, "success");
     }
 
     // Endpoint to answer a question
     @PutMapping("/{id}/jawaban")
-    public ResponseEntity<PertanyaanModel> answerPertanyaan(@PathVariable String id, @RequestBody String jawaban) {
+    public ResponseEntity<Object> answerPertanyaan(@PathVariable String id, @RequestBody String jawaban) {
         try {
             PertanyaanModel updatedPertanyaan = pertanyaanService.answerPertanyaan(id, jawaban);
             return ResponseEntity.ok(updatedPertanyaan);

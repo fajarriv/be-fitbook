@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 import rpl.fitbook.model.peasanan.PesananModel;
 import rpl.fitbook.model.pengguna.TrainerModel;
+import rpl.fitbook.model.pertanyaan.PertanyaanModel;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,4 +56,6 @@ public class SesiKelasModel {
     @OneToMany(mappedBy = "sesiKelas", fetch = FetchType.LAZY)
     private List<PesananModel> listPesanan;
 
+    @OneToMany(mappedBy = "sesiKelas", fetch = FetchType.LAZY)
+    private List<PertanyaanModel> listPertanyaan;
 }

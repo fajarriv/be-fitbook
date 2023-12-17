@@ -4,6 +4,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import rpl.fitbook.dto.pengguna.TrainerMapper;
 import rpl.fitbook.dto.pengguna.UserMapper;
 import rpl.fitbook.dto.sesikelas.SesiKelasMapper;
+import rpl.fitbook.dto.updateProfile.UpdateBioRequest;
 import rpl.fitbook.model.pengguna.UserModel;
 import rpl.fitbook.model.sesikelas.SesiKelasModel;
 import rpl.fitbook.service.pengguna.PenggunaService;
@@ -57,14 +58,14 @@ public class TrainerController {
 
 
     @PutMapping("/{email}/updateBio")
-    public ResponseEntity<?> updateTrainerBio(@PathVariable String email, @RequestBody String newBio) {
-        TrainerModel updatedTrainer = trainerService.updateTrainerBio(email, newBio);
+    public ResponseEntity<?> updateTrainerBio(@PathVariable String email, @RequestBody UpdateBioRequest request) {
+        TrainerModel updatedTrainer = trainerService.updateTrainerBio(email, request.getNewBio());
 
         if (updatedTrainer == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok("Trainer's bio updated successfully.");
+        return ResponseEntity.ok("Trainer's bio updated successfully to:" + request.getNewBio());
     }
 
     @GetMapping("")

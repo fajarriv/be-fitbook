@@ -18,6 +18,7 @@ import rpl.fitbook.util.ResponseUtil;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "https://fitbookit.net"})
 @RequestMapping("/api/trainer")
 public class TrainerController {
 

@@ -13,6 +13,7 @@ import rpl.fitbook.service.sesikelas.SesiKelasService;
 import rpl.fitbook.util.ResponseUtil;
 
 @RestController
+@CrossOrigin(origins = { "http://localhost:3000", "https://fitbookit.net" })
 @RequestMapping("/api")
 public class SesiKelasController {
     @Autowired
@@ -34,7 +35,7 @@ public class SesiKelasController {
     }
 
     @GetMapping("/sesi-kelas")
-    public  ResponseEntity<Object> getAllKelas() {
+    public ResponseEntity<Object> getAllKelas() {
         return ResponseUtil.okResponse(SesiKelasMapper.toHomePageDto(sesiKelasService.getAllSesiKelas()), "success");
     }
 }

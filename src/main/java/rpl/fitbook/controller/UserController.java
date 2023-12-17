@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "https://fitbookit.net"})
 @RequestMapping("/api/user")
 public class UserController {
 

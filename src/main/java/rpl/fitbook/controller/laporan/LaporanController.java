@@ -11,6 +11,7 @@ import rpl.fitbook.util.Response;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "https://fitbookit.net"})
 @RequestMapping("/api")
 public class LaporanController {
     private final LaporanService laporanService;

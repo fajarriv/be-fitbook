@@ -6,6 +6,7 @@ import rpl.fitbook.service.pengguna.PenggunaService;
 import rpl.fitbook.model.pengguna.PenggunaModel;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "https://fitbookit.net"})
 @RequestMapping("/api/pengguna/")
 public class PenggunaController {
 

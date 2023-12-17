@@ -12,6 +12,7 @@ import rpl.fitbook.service.pesanan.PesananService;
 import rpl.fitbook.util.ResponseUtil;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "https://fitbookit.net"})
 @RequestMapping("/api")
 public class PesananController {
     @Autowired

@@ -7,6 +7,7 @@ import rpl.fitbook.model.pertanyaan.PertanyaanModel;
 import rpl.fitbook.service.pertanyaan.PertanyaanService;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "https://fitbookit.net"})
 @RequestMapping("/pertanyaan")
 public class PertanyaanController {
 

@@ -1,5 +1,6 @@
 package rpl.fitbook.model.pertanyaan;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -32,5 +33,6 @@ public class PertanyaanModel {
     @JoinColumn(name = "sesi_kelas_id", nullable = false)
     private SesiKelasModel sesiKelas;
 
-    public String Jawaban;
+    @Nullable
+    public String jawaban;
 }

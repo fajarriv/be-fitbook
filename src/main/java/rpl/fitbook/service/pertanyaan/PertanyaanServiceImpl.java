@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import rpl.fitbook.dto.pertanyaan.JawabanCreate;
 import rpl.fitbook.dto.pertanyaan.PertanyaanCreate;
+import rpl.fitbook.exception.BadRequestException;
 import rpl.fitbook.exception.NotFoundException;
 import rpl.fitbook.model.pengguna.UserModel;
 import rpl.fitbook.model.pertanyaan.PertanyaanModel;
@@ -13,7 +15,6 @@ import rpl.fitbook.service.pengguna.PenggunaService;
 import rpl.fitbook.service.sesikelas.SesiKelasService;
 import rpl.fitbook.service.user.UserService;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -53,17 +54,19 @@ public class PertanyaanServiceImpl implements PertanyaanService {
     }
 
     @Override
-    public PertanyaanModel answerPertanyaan(String pertanyaanId, String jawaban) {
-        Optional<PertanyaanModel> existingPertanyaan = pertanyaanRepository.findById(pertanyaanId);
+    public PertanyaanModel answerPertanyaan(String pertanyaanId, JawabanCreate jawaban) {
+        PertanyaanModel pertanyaan = getPertanyaanById(pertanyaanId);
 
-        if (existingPertanyaan.isPresent()
-                && (existingPertanyaan.get().getJawaban() == null || existingPertanyaan.get().getJawaban().isEmpty())) {
-            PertanyaanModel pertanyaanToUpdate = existingPertanyaan.get();
-            pertanyaanToUpdate.setJawaban(jawaban);
-            return pertanyaanRepository.save(pertanyaanToUpdate);
-        } else {
-            throw new IllegalStateException("Pertanyaan tidak ditemukan atau sudah dijawab.");
+        // Get pengguna id from pengguna that sent the request
+        String penggunaId = penggunaService.getCurrentPenggunaId();
+        
+        // Check if pengguna is the trainer of the class
+        if (!pertanyaan.getSesiKelas().getTrainer().getId().equals(penggunaId)) {
+            throw new BadRequestException("Pengguna bukan trainer dari kelas ini");
         }
+
+        pertanyaan.setJawaban(jawaban.getJawaban());
+        return pertanyaanRepository.save(pertanyaan);
     }
 
 }

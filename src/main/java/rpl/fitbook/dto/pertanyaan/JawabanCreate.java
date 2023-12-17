@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
+// @Builder
 public class JawabanCreate {
     @NotBlank(message = "jawaban is required.")
     private String jawaban;
